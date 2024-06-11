@@ -11,7 +11,7 @@ from flask import (Flask, redirect, render_template, request,
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-conn = pymssql.connect(host='jiaying.database.windows.net' ,user='jiaying' ,password = 'Zjy20010521',database='jiaying')
+conn = pymssql.connect(host='sinong.database.windows.net' ,user='sinong' ,password = 'Wang1997h',database='cse6332')
 cur = conn.cursor()
 #================================================================================================
 # # Create a blob client using the local simulator
@@ -77,7 +77,7 @@ def upload():
         data = pd.read_csv(file_path)
 
         for idx, (_, row) in enumerate(data.iterrows()):
-            sql_query = f"INSERT INTO quiz1.people VALUES ("
+            sql_query = f"INSERT INTO dbo.Quiz1 VALUES ('{idx}', "
             for element in row:
                 if pd.isna(element):
                     element = 'NULL'
