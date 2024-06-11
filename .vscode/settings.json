@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/056ed1ce-b48c-48cd-a48b-e39ca848cda9/resourceGroups/cse6332-zjy_group-a224/providers/Microsoft.Web/sites/cse6332-zjy",
+    "appService.deploySubpath": "."
+}
