@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        button, input {
+            padding: 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Earthquake Search</h1>
+        <div>
+            <label for="magnitude">Magnitude Greater Than:</label>
+            <input type="number" id="magnitude" step="0.1">
+        </div>
+        <div>
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date">
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date">
+        </div>
+        <div>
+            <label for="latitude">Latitude:</label>
+            <input type="number" id="latitude" step="0.1">
+            <label for="longitude">Longitude:</label>
+            <input type="number" id="longitude" step="0.1">
+            <label for="distance_km">Distance (km):</label>
+            <input type="number" id="distance_km" step="1">
+        </div>
+        <button id="searchBtn">Search</button>
+        <button id="clusterBtn">Find Clusters</button>
+        <button id="nightQuakesBtn">Night Quakes</button>
+        <p id="result"></p>
+        <pre id="data"></pre>
+    </div>
+    <script>
+        function fetchData(url, data) {
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json());
+        }
+
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const magnitude = parseFloat(document.getElementById('magnitude').value);
+            const startDate = document.getElementById('start_date').value;
+            const endDate = document.getElementById('end_date').value;
+            const latitude = parseFloat(document.getElementById('latitude').value);
+            const longitude = parseFloat(document.getElementById('longitude').value);
+            const distance_km = parseFloat(document.getElementById('distance_km').value);
+
+            fetchData('/search', { magnitude, start_date: startDate, end_date: endDate, latitude, longitude, distance_km })
+                .then(data => {
+                    document.getElementById('result').innerText = 'Number of earthquakes: ' + data.count;
+                    document.getElementById('data').innerText = JSON.stringify(data.data, null, 2);
+                });
+        });
+
+        document.getElementById('clusterBtn').addEventListener('click', function() {
+            fetchData('/clusters', {})
+                .then(data => {
+                    document.getElementById('result').innerText = 'Clusters:';
+                    document.getElementById('data').innerText = JSON.stringify(data.clusters, null, 2);
+                });
+        });
+
+        document.getElementById('nightQuakesBtn').addEventListener('click', function() {
+            fetchData('/night_quakes', {})
+                .then(data => {
+                    document.getElementById('result').innerText = `Night quakes: ${data.night_count}, Day quakes: ${data.day_count}`;
+                });
+        });
+    </script>
+</body>
+</html>
