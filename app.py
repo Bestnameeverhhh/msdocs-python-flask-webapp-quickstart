@@ -118,7 +118,7 @@ def a1_searchbycostrange():
     return render_template('assignment1.html', contain_content=True, table_content=list(query_data.values.tolist()), titles=query_data.columns.values)
 
 
-@app.route('/assignment2')
+@app.route('/quiz2')
 def assignment2():
     return render_template('assignment2.html')
 
