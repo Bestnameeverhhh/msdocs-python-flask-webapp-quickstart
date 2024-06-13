@@ -11,28 +11,13 @@ def create_table(args):
 
     SQL_QUERY = f"""
                 CREATE TABLE {args.schema_name}.{args.table_name} (
-                    time datetime,
+                    time int,
                     latitude float,
                     longitude float,
                     depth float,
                     mag float,
-                    magType varchar(255),
-                    nst float,
-                    gap float,
-                    dmin float,
-                    rms float,
                     net varchar(255),
-                    id varchar(255),
-                    updated datetime,
-                    place varchar(255),
-                    type varchar(255),
-                    horizontalError float,
-                    depthError float,
-                    magError float,
-                    magNst float,
-                    status varchar(255),
-                    locationSource varchar(255),
-                    magSource varchar(255));"""
+                    id varchar(255));"""
     cur.execute(SQL_QUERY)
     data = pd.read_csv(args.file_path)
           

@@ -14,7 +14,7 @@ app.secret_key = os.urandom(24)
 conn = pymssql.connect(host='jiaying.database.windows.net' ,user='jiaying' ,password = 'Zjy20010521',database='jiaying')
 cur = conn.cursor()
 
-file_path = 'static/data/data.csv'
+file_path = 'static/data/data-1.csv'
 #================================================================================================
 # # Create a blob client using the local simulator
 # try:

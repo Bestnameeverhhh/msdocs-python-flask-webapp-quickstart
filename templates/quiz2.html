@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Data Management</title>
+</head>
+<body>
+    <h1>Earthquake Data Management</h1>
+
+    <!-- Search Earthquakes -->
+    <h2>Search Earthquakes</h2>
+    <form id="search-form">
+        Latitude: <input type="number" step="0.01" name="latitude" required>
+        Degrees: <input type="number" step="0.01" name="degrees" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="search-results"></div>
+
+    <!-- Delete by Net -->
+    <h2>Delete Entries by Net</h2>
+    <form id="delete-form">
+        Net: <input type="text" name="net" required>
+        <button type="submit">Delete</button>
+    </form>
+    <div id="delete-results"></div>
+
+    <!-- Add Entry -->
+    <h2>Add New Entry</h2>
+    <form id="add-form">
+        Time: <input type="text" name="time" required><br>
+        Latitude: <input type="number" step="0.01" name="latitude" required><br>
+        Longitude: <input type="number" step="0.01" name="longitude" required><br>
+        Depth: <input type="number" step="0.01" name="depth" required><br>
+        Magnitude: <input type="number" step="0.01" name="mag" required><br>
+        Net: <input type="text" name="net" required><br>
+        ID: <input type="text" name="id" required><br>
+        <button type="submit">Add</button>
+    </form>
+    <div id="add-results"></div>
+
+    <!-- Modify Entry -->
+    <h2>Modify Entry by Net</h2>
+    <form id="modify-form">
+        Net: <input type="text" name="net" required><br>
+        Field to update: <input type="text" name="field" required><br>
+        New Value: <input type="text" name="value" required><br>
+        <button type="submit">Modify</button>
+    </form>
+    <div id="modify-results"></div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            fetch('/search_earthquakes', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('search-results');
+                resultsDiv.innerHTML = JSON.stringify(data, null, 2);
+            });
+        });
+
+        document.getElementById('delete-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            fetch('/delete_by_net', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('delete-results');
+                resultsDiv.innerHTML = JSON.stringify(data, null, 2);
+            });
+        });
+
+        document.getElementById('add-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            fetch('/add_entry', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('add-results');
+                resultsDiv.innerHTML = JSON.stringify(data, null, 2);
+            });
+        });
+
+        document.getElementById('modify-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            fetch('/modify_entry', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('modify-results');
+                resultsDiv.innerHTML = JSON.stringify(data, null, 2);
+            });
+        });
+    </script>
+</body>
+</html>
